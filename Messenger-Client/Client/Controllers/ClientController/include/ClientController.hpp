@@ -21,7 +21,11 @@ public:
     ClientController(std::weak_ptr<models::IClientModel> client_model);
     virtual ~ClientController(void);
 
-    void connect_to(const std::string &address, uint16_t port);
+    // IClientController overriding starts;
+
+    void connect_to(const std::string &address, uint16_t port) override;
+
+    // IClientController overriding ends;
 
 private:
     bool handle_error(boost::system::error_code &error);
