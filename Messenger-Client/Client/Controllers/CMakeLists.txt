@@ -54,7 +54,7 @@ target_include_directories(
 
 # Adding Boost library;
 
-find_package(Boost REQUIRED system log)
+find_package(Boost REQUIRED system)
 
 message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
 message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
@@ -77,6 +77,7 @@ endif()
 
 set(
     ALL_LIBS
+    bukhta_logger
     bukhtagram_mc_client_models
     ${Boost_LIBRARIES}
     ${WIN_LIBS}
