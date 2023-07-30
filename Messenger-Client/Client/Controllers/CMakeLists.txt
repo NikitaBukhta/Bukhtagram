@@ -52,9 +52,34 @@ target_include_directories(
 
 #----------------------------- LINK LIBRARIES -----------------------------#
 
+# Adding Boost library;
+
+find_package(Boost REQUIRED system log)
+
+message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
+message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
+message(STATUS "Boost_VERSION: ${Boost_VERSION}")
+message(STATUS "BOOST_SYSTEM: ${BOOST_SYSTEM}")
+message(STATUS "BOOST_FILE_SYSTEM: ${BOOST_FILE_SYSTEM}")
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${Boost_INCLUDE_DIRS})
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fcoroutines")
+# if windows compiler;
+if(MINGW)
+    message(STATUS "MinGW compiler defined!")
+    SET(
+        WIN_LIBS
+        ws2_32
+        wsock32
+    )
+endif()
+
 set(
     ALL_LIBS
     bukhtagram_mc_client_models
+    ${Boost_LIBRARIES}
+    ${WIN_LIBS}
 )
 
 target_link_libraries(
