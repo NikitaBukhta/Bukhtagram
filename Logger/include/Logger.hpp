@@ -7,8 +7,8 @@
 
 #include <string>
 
-std::string get_func_name(std::string func_info);
-std::string get_class_name(std::string class_info);
+std::string get_func_name(const std::string &func_info);
+std::string get_class_name(const std::string &class_info);
 
 #define __CLASS_NAME__ std::string("[") + get_class_name(boost::core::demangle(typeid(*this).name())) + "]"
 #define __FUNCTION_NAME__ std::string("[") + get_func_name(BOOST_CURRENT_FUNCTION) + "]"
