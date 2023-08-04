@@ -4,3 +4,4 @@ project(${PROJECT_NAME})
 
 add_subdirectory(Logger)
 add_subdirectory(Messenger-Client)
+add_subdirectory(Messenger-Server)
