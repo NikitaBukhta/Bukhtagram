@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
     auto client_controller = std::make_shared<controllers::ClientController>(
         client_model
     );
-    client_controller->connect_to("134.123.111.12", 1234);
+    client_controller->connect_to("127.0.0.1", 12345);
     
     return 0;
 }
