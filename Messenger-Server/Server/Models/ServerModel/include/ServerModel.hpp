@@ -35,7 +35,6 @@ public:
     // Update methods starts;
 
     bool update_acceptor(void) override;
-    bool update_acceptor(uint16_t port) override;
 
     // Update methods ends;
 

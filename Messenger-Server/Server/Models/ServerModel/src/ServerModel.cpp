@@ -64,18 +64,6 @@ bool ServerModel::update_acceptor(void) {
     return false;
 }
 
-bool ServerModel::update_acceptor(uint16_t port) {
-    std::lock_guard<std::mutex> io_context_guard(m_io_context_mutex);
-    if (m_io_context.get()) {
-        std::lock_guard<std::mutex> acceptor_guard(m_accpetor_mutex);
-        m_acceptor = std::make_shared<boost::asio::ip::tcp::acceptor>(*m_io_context, 
-            boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)
-        );
-        return true;
-    }
-    return false;
-}
-
 /*
  * Update methods ends;
  */

@@ -27,7 +27,8 @@ public:
 private:
     void accept_connection(void);
 
-    void handle_accept(std::weak_ptr<boost::asio::ip::tcp::socket> weak_client_socket);
+    void handle_accept(std::weak_ptr<boost::asio::ip::tcp::socket> weak_client_socket, const boost::system::error_code &error);
+    bool handle_error(const boost::system::error_code &error);
 
 private:
     std::shared_ptr<models::IServerModel> m_server_model;

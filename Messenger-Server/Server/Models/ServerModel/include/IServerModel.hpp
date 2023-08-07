@@ -29,7 +29,6 @@ public:
     // Update methods starts;
 
     virtual bool update_acceptor(void) = 0;
-    virtual bool update_acceptor(uint16_t port) = 0;
 
     // Update methods ends;
 };

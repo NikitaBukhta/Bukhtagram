@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
     auto io_context = std::make_shared<boost::asio::io_context>();
 
     auto server_model = std::make_shared<models::ServerModel>(io_context);
-    server_model->update_acceptor(12345);
+    server_model->update_acceptor();
     auto server_controller = std::make_shared<controllers::ServerController>(server_model);
 
     try {
