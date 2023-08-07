@@ -16,7 +16,7 @@ namespace models {
 
 class ServerModel : public IServerModel {
 public:
-    ServerModel(std::weak_ptr<boost::asio::io_context> val);
+    ServerModel(std::weak_ptr<boost::asio::io_context> io_context);
     virtual ~ServerModel(void) = default;
 
     // Getters starts;
@@ -28,15 +28,22 @@ public:
 
     // Setters starts;
 
-    bool set_io_contex(std::weak_ptr<boost::asio::io_context> val) override;
+    
     
     // Setters ends;
 
-    // Update methods starts;
+private:
+    // Private Setters starts;
+    
+    bool set_io_context(std::weak_ptr<boost::asio::io_context> val);
 
-    bool update_acceptor(void) override;
+    // Private Setters ends;
 
-    // Update methods ends;
+    // Private Update methods starts;
+
+    bool update_acceptor(void);
+
+    // Private Update methods ends;
 
 private:
     std::mutex m_io_context_mutex;

@@ -21,16 +21,8 @@ public:
     // Getters ends;
 
     // Setters starts;
-
-    virtual bool set_io_contex(std::weak_ptr<boost::asio::io_context> val) = 0;
     
     // Setters ends;
-
-    // Update methods starts;
-
-    virtual bool update_acceptor(void) = 0;
-
-    // Update methods ends;
 };
 
 }   // !models;

@@ -7,8 +7,8 @@ namespace ms {
 namespace server {
 namespace models {
 
-ServerModel::ServerModel(std::weak_ptr<boost::asio::io_context> val) {
-    set_io_contex(val);
+ServerModel::ServerModel(std::weak_ptr<boost::asio::io_context> io_context) {
+    set_io_context(io_context);
     update_acceptor();
 }
 
@@ -34,8 +34,16 @@ std::weak_ptr<boost::asio::ip::tcp::acceptor> ServerModel::acceptor(void) {
  * Setters starts;
  */
 
+/*
+ * Setters ends;
+ */
 
-bool ServerModel::set_io_contex(std::weak_ptr<boost::asio::io_context> val) {
+/*
+ * Private Setters starts;
+ */
+
+
+bool ServerModel::set_io_context(std::weak_ptr<boost::asio::io_context> val) {
     std::lock_guard<std::mutex> guard(m_io_context_mutex);
     auto new_ptr = val.lock();
 
@@ -47,11 +55,11 @@ bool ServerModel::set_io_contex(std::weak_ptr<boost::asio::io_context> val) {
 }
 
 /*
- * Setters ends;
+ * Private Setters ends;
  */
 
 /*
- * Update methods starts;
+ * Private Update methods starts;
  */
 
 bool ServerModel::update_acceptor(void) {
@@ -65,7 +73,7 @@ bool ServerModel::update_acceptor(void) {
 }
 
 /*
- * Update methods ends;
+ * Private Update methods ends;
  */
 
 }   // !models;
