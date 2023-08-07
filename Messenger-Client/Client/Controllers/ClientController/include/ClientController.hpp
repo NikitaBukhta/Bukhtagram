@@ -28,7 +28,7 @@ public:
     // IClientController overriding ends;
 
 private:
-    bool handle_error(boost::system::error_code &error);
+    bool handle_error(const boost::system::error_code &error);
 
 private:
     std::shared_ptr<models::IClientModel> m_client_model;

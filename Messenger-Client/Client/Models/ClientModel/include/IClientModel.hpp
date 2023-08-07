@@ -22,15 +22,7 @@ public:
 
     // Setters starts;
 
-    virtual bool set_io_context(std::weak_ptr<boost::asio::io_context> val) = 0;
-
     // Setters ends;
-
-    // Other methods starts;
-
-    virtual bool update_socket(void) = 0;
-
-    // Other methods ends;
 };
 
 }   // !models;

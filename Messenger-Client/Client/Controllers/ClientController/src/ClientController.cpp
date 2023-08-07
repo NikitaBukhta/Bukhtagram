@@ -36,7 +36,7 @@ void ClientController::connect_to(const std::string &address, uint16_t port) {
     }
 }
 
-bool ClientController::handle_error(boost::system::error_code &error) {
+bool ClientController::handle_error(const boost::system::error_code &error) {
     DECLARE_TAG_SCOPE;
 
     if (error.value() == boost::system::errc::success) {

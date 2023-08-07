@@ -9,9 +9,7 @@ int main(int argc, char **argv) {
 
     std::cout << "Started program" << std::endl;
     auto io_context = std::make_shared<boost::asio::io_context>();
-    auto client_model = std::make_shared<models::ClientModel>();
-    client_model->set_io_context(io_context);
-    client_model->update_socket();
+    auto client_model = std::make_shared<models::ClientModel>(io_context);
 
     std::cout << "Client socket is set" << std::endl;
     

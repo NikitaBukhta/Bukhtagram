@@ -7,6 +7,11 @@ namespace mc {
 namespace client {
 namespace models {
 
+ClientModel::ClientModel(std::weak_ptr<boost::asio::io_context> io_context) {
+    set_io_context(io_context);
+    update_socket();
+}
+
 /*
  *  Getters starts;
  */
@@ -29,6 +34,14 @@ std::weak_ptr<boost::asio::ip::tcp::socket> ClientModel::socket(void) const {
  *  Setters starts;
  */
 
+/*
+ *  Setters ends;
+ */
+
+/*
+ *  Private Setters starts;
+ */
+
 bool ClientModel::set_io_context(std::weak_ptr<boost::asio::io_context> val) {
     std::lock_guard<std::mutex> guard(m_io_context_mutex);
     auto new_ptr = val.lock();
@@ -40,11 +53,11 @@ bool ClientModel::set_io_context(std::weak_ptr<boost::asio::io_context> val) {
 }
 
 /*
- *  Setters ends;
+ *  Private Setters ends;
  */
 
 /*
- *  Other methods starts;
+ *  Private Update methods starts;
  */
 
 bool ClientModel::update_socket(void) {
@@ -58,7 +71,7 @@ bool ClientModel::update_socket(void) {
 }
 
 /*
- *  Other methods ends;
+ *  Private Update methods ends;
  */
 
 }   // !models;

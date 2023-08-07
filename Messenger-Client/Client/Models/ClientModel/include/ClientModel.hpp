@@ -16,7 +16,7 @@ namespace models {
 
 class ClientModel : public IClientModel {
 public:
-    ClientModel(void) = default;
+    ClientModel(std::weak_ptr<boost::asio::io_context> io_context);
     virtual ~ClientModel(void) = default;
 
     // Getters starts;
@@ -28,15 +28,20 @@ public:
 
     // Setters starts;
 
-    bool set_io_context(std::weak_ptr<boost::asio::io_context> val) override;
-
     // Setters ends;
 
-    // Other methods starts;
+private:
+    // Private Setters starts;
 
-    bool update_socket(void) override;
+    bool set_io_context(std::weak_ptr<boost::asio::io_context> val);
 
-    // Other methods ends;
+    // Private Setters ends;
+
+    // Private Update methods starts
+
+    bool update_socket(void);
+
+    // Private Update methods ends
 
 private:
     mutable std::mutex m_io_context_mutex;
