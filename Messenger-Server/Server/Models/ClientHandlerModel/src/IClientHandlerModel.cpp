@@ -16,48 +16,31 @@
  **********************************************************************************************************************                                                                                                                    *
  */
 
-#ifndef BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_SERVERCONTROLLER_HPP
-#define BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_SERVERCONTROLLER_HPP
-
-#include "IServerController.hpp"
-#include "IClientHandlerController.hpp"
-#include "IServerModel.hpp"
-
-#include "Logger.hpp"
-
-#include <memory>
+#include "IClientHandlerModel.hpp"
 
 namespace bukhtagram {
 namespace ms {
 namespace server {
-namespace controllers {
+namespace models {
 
-class ServerController : public IServerController{
-public:
-    ServerController(std::weak_ptr<models::IServerModel> server_model);
-    virtual ~ServerController(void);
+bool ClientConnection::operator==(const ClientConnection &other) const noexcept {
+    return this->socket == other.socket;
+}
 
-    // Overriding starts;
-
-    void run(const std::string &server_address, uint16_t server_port) override;
-
-    // Overriding ends;
-
-private:
-    void accept_connection(void);
-
-    void handle_accept(std::weak_ptr<boost::asio::ip::tcp::socket> weak_client_socket, const boost::system::error_code &error);
-    bool handle_error(const boost::system::error_code &error);
-
-private:
-    std::shared_ptr<models::IServerModel> m_server_model;
-    std::shared_ptr<IClientHandlerController> m_client_handler_controller;
-};
-
-}   // !controllers;
+}   // !models;
 }   // !server;
 }   // !ms;
 }   // !bukhtagram;
 
+namespace std {
+    using namespace bukhtagram::ms::server::models;
+    
+    size_t hash<ClientConnection>::operator()(const ClientConnection &val) const
+    {
+        size_t ret = 0;
+        
+        boost::hash_combine(ret, val.socket);
 
-#endif  // !BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_SERVERCONTROLLER_HPP;
+        return ret;
+    }
+}   // !std;

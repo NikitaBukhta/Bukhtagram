@@ -16,48 +16,48 @@
  **********************************************************************************************************************                                                                                                                    *
  */
 
-#ifndef BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_SERVERCONTROLLER_HPP
-#define BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_SERVERCONTROLLER_HPP
+#ifndef BUKHTAGRAM_MESSENGERSERVER_SERVER_MODELS_ICLIENTHANDLERMODEL_HPP
+#define BUKHTAGRAM_MESSENGERSERVER_SERVER_MODELS_ICLIENTHANDLERMODEL_HPP
 
-#include "IServerController.hpp"
-#include "IClientHandlerController.hpp"
-#include "IServerModel.hpp"
+#include <boost/asio/ip/tcp.hpp>
 
-#include "Logger.hpp"
+#include <boost/functional/hash.hpp>
 
+#include <functional>
 #include <memory>
 
 namespace bukhtagram {
 namespace ms {
 namespace server {
-namespace controllers {
+namespace models {
 
-class ServerController : public IServerController{
+struct ClientConnection {
+    std::shared_ptr<boost::asio::ip::tcp::socket> socket;
+
 public:
-    ServerController(std::weak_ptr<models::IServerModel> server_model);
-    virtual ~ServerController(void);
-
-    // Overriding starts;
-
-    void run(const std::string &server_address, uint16_t server_port) override;
-
-    // Overriding ends;
-
-private:
-    void accept_connection(void);
-
-    void handle_accept(std::weak_ptr<boost::asio::ip::tcp::socket> weak_client_socket, const boost::system::error_code &error);
-    bool handle_error(const boost::system::error_code &error);
-
-private:
-    std::shared_ptr<models::IServerModel> m_server_model;
-    std::shared_ptr<IClientHandlerController> m_client_handler_controller;
+    bool operator==(const ClientConnection &other) const noexcept;
 };
 
-}   // !controllers;
+class IClientHandlerModel {
+public:
+    virtual bool add(const ClientConnection &val) = 0;
+    virtual bool add(ClientConnection &&val) = 0;
+};
+
+}   // !models;
 }   // !server;
 }   // !ms;
 }   // !bukhtagram;
 
+namespace std {
 
-#endif  // !BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_SERVERCONTROLLER_HPP;
+using namespace bukhtagram::ms::server::models;
+
+template <> struct hash<ClientConnection>
+{
+    size_t operator()(const ClientConnection &val) const;
+};
+
+}   // !std;
+
+#endif  // !BUKHTAGRAM_MESSENGERSERVER_SERVER_MODELS_ICLIENTHANDLERMODEL_HPP;

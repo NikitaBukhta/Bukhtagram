@@ -16,48 +16,21 @@
  **********************************************************************************************************************                                                                                                                    *
  */
 
-#ifndef BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_SERVERCONTROLLER_HPP
-#define BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_SERVERCONTROLLER_HPP
-
-#include "IServerController.hpp"
-#include "IClientHandlerController.hpp"
-#include "IServerModel.hpp"
-
-#include "Logger.hpp"
-
-#include <memory>
+#include "ClientHandlerModel.hpp"
 
 namespace bukhtagram {
 namespace ms {
 namespace server {
-namespace controllers {
+namespace models {
 
-class ServerController : public IServerController{
-public:
-    ServerController(std::weak_ptr<models::IServerModel> server_model);
-    virtual ~ServerController(void);
-
-    // Overriding starts;
-
-    void run(const std::string &server_address, uint16_t server_port) override;
-
-    // Overriding ends;
-
-private:
-    void accept_connection(void);
-
-    void handle_accept(std::weak_ptr<boost::asio::ip::tcp::socket> weak_client_socket, const boost::system::error_code &error);
-    bool handle_error(const boost::system::error_code &error);
-
-private:
-    std::shared_ptr<models::IServerModel> m_server_model;
-    std::shared_ptr<IClientHandlerController> m_client_handler_controller;
+bool ClientHandlerModel::add(const ClientConnection &val) {
+    return m_client_connection_set.insert(val).second;
 };
 
-}   // !controllers;
+bool ClientHandlerModel::add(ClientConnection &&val) {
+    return m_client_connection_set.insert(std::move(val)).second;
+}
+}   // !models;
 }   // !server;
 }   // !ms;
 }   // !bukhtagram;
-
-
-#endif  // !BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_SERVERCONTROLLER_HPP;

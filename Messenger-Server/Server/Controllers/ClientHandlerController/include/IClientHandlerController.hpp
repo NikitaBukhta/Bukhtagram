@@ -16,14 +16,10 @@
  **********************************************************************************************************************                                                                                                                    *
  */
 
-#ifndef BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_SERVERCONTROLLER_HPP
-#define BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_SERVERCONTROLLER_HPP
+#ifndef BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_ICLIENTHANDLERCONTROLLER_HPP
+#define BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_ICLIENTHANDLERCONTROLLER_HPP
 
-#include "IServerController.hpp"
-#include "IClientHandlerController.hpp"
-#include "IServerModel.hpp"
-
-#include "Logger.hpp"
+#include <boost/asio/ip/tcp.hpp>
 
 #include <memory>
 
@@ -32,26 +28,9 @@ namespace ms {
 namespace server {
 namespace controllers {
 
-class ServerController : public IServerController{
+class IClientHandlerController {
 public:
-    ServerController(std::weak_ptr<models::IServerModel> server_model);
-    virtual ~ServerController(void);
-
-    // Overriding starts;
-
-    void run(const std::string &server_address, uint16_t server_port) override;
-
-    // Overriding ends;
-
-private:
-    void accept_connection(void);
-
-    void handle_accept(std::weak_ptr<boost::asio::ip::tcp::socket> weak_client_socket, const boost::system::error_code &error);
-    bool handle_error(const boost::system::error_code &error);
-
-private:
-    std::shared_ptr<models::IServerModel> m_server_model;
-    std::shared_ptr<IClientHandlerController> m_client_handler_controller;
+    virtual void add(std::weak_ptr<boost::asio::ip::tcp::socket> client_socket) = 0;
 };
 
 }   // !controllers;
@@ -59,5 +38,4 @@ private:
 }   // !ms;
 }   // !bukhtagram;
 
-
-#endif  // !BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_SERVERCONTROLLER_HPP;
+#endif  // !BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_ICLIENTHANDLERCONTROLLER_HPP;

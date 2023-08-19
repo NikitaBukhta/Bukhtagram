@@ -16,14 +16,13 @@
  **********************************************************************************************************************                                                                                                                    *
  */
 
-#ifndef BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_SERVERCONTROLLER_HPP
-#define BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_SERVERCONTROLLER_HPP
+// TODO: create a method to check if socket is ready to read with socket.available;
 
-#include "IServerController.hpp"
+#ifndef BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_CLIENTHANDLERCONTROLLER_HPP
+#define BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_CLIENTHANDLERCONTROLLER_HPP
+
 #include "IClientHandlerController.hpp"
-#include "IServerModel.hpp"
-
-#include "Logger.hpp"
+#include "IClientHandlerModel.hpp"
 
 #include <memory>
 
@@ -32,26 +31,15 @@ namespace ms {
 namespace server {
 namespace controllers {
 
-class ServerController : public IServerController{
+class ClientHandlerController : public IClientHandlerController {
 public:
-    ServerController(std::weak_ptr<models::IServerModel> server_model);
-    virtual ~ServerController(void);
+    ClientHandlerController(void);
+    virtual ~ClientHandlerController(void) = default;
 
-    // Overriding starts;
-
-    void run(const std::string &server_address, uint16_t server_port) override;
-
-    // Overriding ends;
+    void add(std::weak_ptr<boost::asio::ip::tcp::socket> client_socket) override;
 
 private:
-    void accept_connection(void);
-
-    void handle_accept(std::weak_ptr<boost::asio::ip::tcp::socket> weak_client_socket, const boost::system::error_code &error);
-    bool handle_error(const boost::system::error_code &error);
-
-private:
-    std::shared_ptr<models::IServerModel> m_server_model;
-    std::shared_ptr<IClientHandlerController> m_client_handler_controller;
+    std::shared_ptr<models::IClientHandlerModel> m_client_handler_model;
 };
 
 }   // !controllers;
@@ -59,5 +47,4 @@ private:
 }   // !ms;
 }   // !bukhtagram;
 
-
-#endif  // !BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_SERVERCONTROLLER_HPP;
+#endif  // !BUKHTAGRAM_MESSENGERSERVER_SERVER_CONTROLLERS_CLIENTHANDLERCONTROLLER_HPP;
