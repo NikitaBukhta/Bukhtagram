@@ -36,6 +36,7 @@ public:
     ClientHandlerController(std::weak_ptr<models::IClientHandlerModel> client_handler_model);
     virtual ~ClientHandlerController(void) = default;
 
+    void run(void) override;
     void add(std::weak_ptr<boost::asio::ip::tcp::socket> client_socket) override;
 
 private:

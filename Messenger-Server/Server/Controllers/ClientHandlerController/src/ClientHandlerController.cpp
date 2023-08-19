@@ -33,6 +33,11 @@ ClientHandlerController::ClientHandlerController(std::weak_ptr<models::IClientHa
     LOG_INFO << "called";
 }
 
+void ClientHandlerController::run(void) {
+    DECLARE_TAG_SCOPE;
+    LOG_INFO << "called";
+}
+
 void ClientHandlerController::add(std::weak_ptr<boost::asio::ip::tcp::socket> client_socket) {
     DECLARE_TAG_SCOPE;
     

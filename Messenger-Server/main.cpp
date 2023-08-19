@@ -40,6 +40,7 @@ int main(int argc, char **argv) {
 
     try {
         server_controller->run("127.0.0.1", 12345);
+        client_handler_controller->run();
         io_context->run();
     } catch (std::exception &error) {
         std::cerr << error.what() << std::endl;

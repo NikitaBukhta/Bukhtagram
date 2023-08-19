@@ -30,6 +30,7 @@ namespace controllers {
 
 class IClientHandlerController {
 public:
+    virtual void run(void) = 0;
     virtual void add(std::weak_ptr<boost::asio::ip::tcp::socket> client_socket) = 0;
 };
 
