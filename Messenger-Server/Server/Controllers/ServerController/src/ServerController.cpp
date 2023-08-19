@@ -30,14 +30,11 @@ namespace ms {
 namespace server {
 namespace controllers {
 
-ServerController::ServerController(std::weak_ptr<models::IServerModel> server_model)
-    : m_server_model(server_model.lock())
+ServerController::ServerController(std::weak_ptr<models::IServerModel> server_model, std::weak_ptr<IClientHandlerController> client_handler_controller)
+    : m_server_model(server_model.lock()), m_client_handler_controller(client_handler_controller.lock())
 {
     DECLARE_TAG_SCOPE;
     LOG_INFO << "called";
-
-    // TODO: move this arg to contructor;
-    m_client_handler_controller = std::make_shared<ClientHandlerController>();
 }
 
 ServerController::~ServerController(void) {

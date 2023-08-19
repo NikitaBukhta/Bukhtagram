@@ -33,7 +33,7 @@ namespace controllers {
 
 class ClientHandlerController : public IClientHandlerController {
 public:
-    ClientHandlerController(void);
+    ClientHandlerController(std::weak_ptr<models::IClientHandlerModel> client_handler_model);
     virtual ~ClientHandlerController(void) = default;
 
     void add(std::weak_ptr<boost::asio::ip::tcp::socket> client_socket) override;

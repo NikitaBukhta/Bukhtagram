@@ -26,16 +26,15 @@ namespace ms {
 namespace server {
 namespace controllers {
 
-ClientHandlerController::ClientHandlerController(void) {
+ClientHandlerController::ClientHandlerController(std::weak_ptr<models::IClientHandlerModel> client_handler_model)
+    : m_client_handler_model(client_handler_model.lock())
+{
     DECLARE_TAG_SCOPE;
     LOG_INFO << "called";
-    // TODO: move this arg to contructor;
-    m_client_handler_model = std::make_shared<models::ClientHandlerModel>();
 }
 
 void ClientHandlerController::add(std::weak_ptr<boost::asio::ip::tcp::socket> client_socket) {
     DECLARE_TAG_SCOPE;
-    LOG_INFO << "called";
     
     models::ClientConnection client_connection = {
         client_socket.lock()

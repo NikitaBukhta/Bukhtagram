@@ -34,7 +34,7 @@ namespace controllers {
 
 class ServerController : public IServerController{
 public:
-    ServerController(std::weak_ptr<models::IServerModel> server_model);
+    ServerController(std::weak_ptr<models::IServerModel> server_model, std::weak_ptr<IClientHandlerController> client_handler_controller);
     virtual ~ServerController(void);
 
     // Overriding starts;

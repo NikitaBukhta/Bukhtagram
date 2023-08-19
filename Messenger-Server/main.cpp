@@ -17,7 +17,10 @@
  */
 
 #include "ServerController.hpp"
+#include "ClientHandlerController.hpp"
+
 #include "ServerModel.hpp"
+#include "ClientHandlerModel.hpp"
 
 #include <boost/asio/io_context.hpp>
 
@@ -30,7 +33,10 @@ int main(int argc, char **argv) {
     auto io_context = std::make_shared<boost::asio::io_context>();
 
     auto server_model = std::make_shared<models::ServerModel>(io_context);
-    auto server_controller = std::make_shared<controllers::ServerController>(server_model);
+    auto client_handler_model = std::make_shared<models::ClientHandlerModel>();
+
+    auto client_handler_controller = std::make_shared<controllers::ClientHandlerController>(client_handler_model);
+    auto server_controller = std::make_shared<controllers::ServerController>(server_model, client_handler_controller);
 
     try {
         server_controller->run("127.0.0.1", 12345);
