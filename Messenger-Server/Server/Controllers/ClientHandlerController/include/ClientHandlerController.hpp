@@ -24,7 +24,11 @@
 #include "IClientHandlerController.hpp"
 #include "IClientHandlerModel.hpp"
 
+#include <array>
 #include <memory>
+#include <string>
+
+#define STANDART_BUFFER_SIZE 128    // TODO: temp, create a config file!;
 
 namespace bukhtagram {
 namespace ms {
@@ -38,6 +42,14 @@ public:
 
     void run(void) override;
     void add(std::weak_ptr<boost::asio::ip::tcp::socket> client_socket) override;
+
+private:
+    void start_read(models::ClientConnection &client);
+    void start_write(models::ClientConnection &recipient, const std::string &message);
+
+    bool handle_error(const boost::system::error_code &error);
+    void handle_read(std::array<char, STANDART_BUFFER_SIZE> &data, const uint64_t DATA_SIZE, const boost::system::error_code &error, models::ClientConnection client);
+    void handle_write(const uint64_t DATA_SIZE, const boost::system::error_code &error);
 
 private:
     std::shared_ptr<models::IClientHandlerModel> m_client_handler_model;

@@ -110,6 +110,7 @@ void ClientController::start_read(void) {
     });
 }
 
+// TODO: fix bug when server is closed;
 bool ClientController::handle_error(const boost::system::error_code &error) {
     DECLARE_TAG_SCOPE;
 
@@ -124,7 +125,7 @@ bool ClientController::handle_error(const boost::system::error_code &error) {
 
 void ClientController::handle_read(std::array<char, STANDART_BUFFER_SIZE> &data, const uint64_t DATA_SIZE, const boost::system::error_code &error) {
     DECLARE_TAG_SCOPE;
-    std::string transformed_data(std::begin(data), std::end(data));
+    std::string transformed_data(std::begin(data), std::begin(data) + DATA_SIZE);
     LOG_INFO << "bytes count: " << DATA_SIZE << "; data: " << transformed_data;
     start_read();
 }

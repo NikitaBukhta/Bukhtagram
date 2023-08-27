@@ -36,6 +36,8 @@ struct ClientConnection {
     std::shared_ptr<boost::asio::ip::tcp::socket> socket;
 
 public:
+    ClientConnection(void) = default;
+    ClientConnection(const ClientConnection &other);
     bool operator==(const ClientConnection &other) const noexcept;
 };
 

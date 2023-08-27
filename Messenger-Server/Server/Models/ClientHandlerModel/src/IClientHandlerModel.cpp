@@ -23,6 +23,10 @@ namespace ms {
 namespace server {
 namespace models {
 
+ClientConnection::ClientConnection(const ClientConnection &other) {
+    this->socket = other.socket;
+}
+
 bool ClientConnection::operator==(const ClientConnection &other) const noexcept {
     return this->socket == other.socket;
 }
