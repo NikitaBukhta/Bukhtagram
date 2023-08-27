@@ -16,20 +16,41 @@
  **********************************************************************************************************************                                                                                                                    *
  */
 
+#ifndef BUKHTAGRAM_MESSENGERCLIENT_CLIENT_VIEWS_CLIENTVIEW_HPP
+#define BUKHTAGRAM_MESSENGERCLIENT_CLIENT_VIEWS_CLIENTVIEW_HPP
+
 #include "ClientModel.hpp"
 #include "ClientController.hpp"
-#include "ClientView.hpp"
 
-#include <iostream>
+#include <boost/asio/io_context.hpp>
+
 #include <memory>
+#include <string>
+#include <inttypes.h>
 
-int main(int argc, char **argv) {
-    using namespace bukhtagram::mc::client;
-    auto io_context = std::make_shared<boost::asio::io_context>();
-    bukhtagram::mc::client::views::ClientView client_view(io_context);
+namespace bukhtagram {
+namespace mc {
+namespace client {
+namespace views {
 
-    client_view.run("127.0.0.1", 12345);
-    io_context->run();
-    
-    return 0;
-}
+class ClientView {
+public:
+    ClientView(std::weak_ptr<boost::asio::io_context> io_context_weak);
+    virtual ~ClientView(void) = default;
+
+    bool run(const std::string &address, uint16_t port);
+
+protected:
+    // TODO: constructor for UT, where args should be model and controller;
+
+private:
+    std::shared_ptr<models::IClientModel> m_client_model;
+    std::shared_ptr<controllers::IClientController> m_client_controller;
+};
+
+}   // !views;
+}   // !client;
+}   // !mc;
+}   // !bukhtagram;
+
+#endif  // !BUKHTAGRAM_MESSENGERCLIENT_CLIENT_VIEWS_CLIENTVIEW_HPP;

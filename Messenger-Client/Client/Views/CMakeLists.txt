@@ -1,7 +1,7 @@
 #----------------------------- CONFIGURE CMAKE -----------------------------#
 
 cmake_minimum_required(VERSION 3.25.1)
-set(PROJECT_NAME bukhtagram_mc_client_controllers)
+set(PROJECT_NAME bukhtagram_mc_client_view)
 project(${PROJECT_NAME})
 
 #-------------------------------- FUNCTIONS --------------------------------#
@@ -52,6 +52,16 @@ target_include_directories(
 
 #----------------------------- LINK LIBRARIES -----------------------------#
 
+set(
+    ALL_LIBS
+    bukhtagram_mc_client_controllers
+)
+
+target_link_libraries(
+    ${PROJECT_NAME}
+    ${ALL_LIBS}
+)
+
 # Adding Boost library;
 
 find_package(Boost REQUIRED system)
@@ -78,11 +88,7 @@ set(
     ALL_LIBS
     bukhta_logger
     bukhtagram_mc_client_models
+    bukhtagram_mc_client_controllers
     ${Boost_LIBRARIES}
     ${WIN_LIBS}
-)
-
-target_link_libraries(
-    ${PROJECT_NAME}
-    ${ALL_LIBS}
 )

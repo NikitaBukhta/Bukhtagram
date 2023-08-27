@@ -13,11 +13,13 @@ add_library(
 
 add_subdirectory(Models)
 add_subdirectory(Controllers)
+add_subdirectory(Views)
 
 set(
     ALL_LIBS
     bukhtagram_mc_client_models
     bukhtagram_mc_client_controllers
+    bukhtagram_mc_client_view
 )
 
 target_link_libraries(
