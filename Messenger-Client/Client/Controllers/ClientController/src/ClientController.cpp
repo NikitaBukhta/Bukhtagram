@@ -74,11 +74,19 @@ bool ClientController::connect_to(const std::string &address, uint16_t port) {
 }
 
 void ClientController::send_message(const std::string &message) {
+    using namespace boost::placeholders;
+
     DECLARE_TAG_SCOPE;
-    LOG_INFO << "called";
+    LOG_INFO << "data size: " << message.size();
 
     auto socket = m_client_model->socket().lock();
-    // socket->async_write_some()
+
+    boost::function<void(const uint64_t, const boost::system::error_code&)> write_handler = boost::bind(&ClientController::handle_write, this, _1, _2);
+
+    socket->async_write_some(
+        boost::asio::buffer(message.data(), message.size()), [write_handler](const boost::system::error_code &error, const uint64_t bytes_transferred){
+            write_handler(bytes_transferred, error);
+    });
 }
 
 void ClientController::start_read(void) {
@@ -119,6 +127,12 @@ void ClientController::handle_read(std::array<char, STANDART_BUFFER_SIZE> &data,
     std::string transformed_data(std::begin(data), std::end(data));
     LOG_INFO << "bytes count: " << DATA_SIZE << "; data: " << transformed_data;
     start_read();
+}
+
+void ClientController::handle_write(const uint64_t DATA_SIZE, const boost::system::error_code &error) {
+    DECLARE_TAG_SCOPE;
+    LOG_DEBUG << "counts bytes was sent:" << DATA_SIZE;
+    handle_error(error);
 }
 
 }   // !controllers;

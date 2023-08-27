@@ -59,6 +59,7 @@ void ClientView::start_reading_signals(void) {
 void ClientView::send_message(const std::string &message) {
     DECLARE_TAG_SCOPE;
     LOG_INFO << "message: " << message;
+    m_client_controller->send_message(message);
 }
 
 }   // !views;

@@ -55,6 +55,7 @@ private:
 
     bool handle_error(const boost::system::error_code &error);
     void handle_read(std::array<char, STANDART_BUFFER_SIZE> &data, const uint64_t DATA_SIZE, const boost::system::error_code &error);
+    void handle_write(const uint64_t DATA_SIZE, const boost::system::error_code &error);
 
 private:
     std::shared_ptr<models::IClientModel> m_client_model;
