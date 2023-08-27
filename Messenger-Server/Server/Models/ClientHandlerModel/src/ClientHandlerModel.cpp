@@ -23,13 +23,30 @@ namespace ms {
 namespace server {
 namespace models {
 
+/*
+ * ClientHandlerModel method realization starts;
+ */
+
 bool ClientHandlerModel::add(const ClientConnection &val) {
     return m_client_connection_set.insert(val).second;
-};
+}
 
 bool ClientHandlerModel::add(ClientConnection &&val) {
     return m_client_connection_set.insert(std::move(val)).second;
 }
+
+std::unordered_set<ClientConnection>::const_iterator ClientHandlerModel::begin(void) const {
+    return std::begin(m_client_connection_set);
+}
+
+std::unordered_set<ClientConnection>::const_iterator ClientHandlerModel::end(void) const {
+    return std::end(m_client_connection_set);
+}
+
+/*
+ * ClientHandlerModel method realization ends;
+ */
+
 }   // !models;
 }   // !server;
 }   // !ms;

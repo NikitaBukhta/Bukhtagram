@@ -25,6 +25,7 @@
 
 #include <functional>
 #include <memory>
+#include <unordered_set>
 
 namespace bukhtagram {
 namespace ms {
@@ -36,12 +37,6 @@ struct ClientConnection {
 
 public:
     bool operator==(const ClientConnection &other) const noexcept;
-};
-
-class IClientHandlerModel {
-public:
-    virtual bool add(const ClientConnection &val) = 0;
-    virtual bool add(ClientConnection &&val) = 0;
 };
 
 }   // !models;
@@ -59,5 +54,24 @@ template <> struct hash<ClientConnection>
 };
 
 }   // !std;
+
+namespace bukhtagram {
+namespace ms {
+namespace server {
+namespace models {
+
+class IClientHandlerModel {
+public:
+    virtual bool add(const ClientConnection &val) = 0;
+    virtual bool add(ClientConnection &&val) = 0;
+
+    virtual std::unordered_set<ClientConnection>::const_iterator begin(void) const = 0;
+    virtual std::unordered_set<ClientConnection>::const_iterator end(void) const = 0;
+};
+
+}   // !models;
+}   // !server;
+}   // !ms;
+}   // !bukhtagram;
 
 #endif  // !BUKHTAGRAM_MESSENGERSERVER_SERVER_MODELS_ICLIENTHANDLERMODEL_HPP;

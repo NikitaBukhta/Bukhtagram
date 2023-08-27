@@ -33,6 +33,9 @@ public:
     bool add(const ClientConnection &val);
     bool add(ClientConnection &&val);
 
+    std::unordered_set<ClientConnection>::const_iterator begin(void) const;
+    std::unordered_set<ClientConnection>::const_iterator end(void) const;
+
 private:
     std::unordered_set<ClientConnection> m_client_connection_set;
 
