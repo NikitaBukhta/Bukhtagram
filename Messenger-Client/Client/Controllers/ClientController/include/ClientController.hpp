@@ -49,7 +49,7 @@ public:
 
     // IClientController overriding ends;
 
-public:
+private:
     void start_read(void);
 
     bool handle_error(const boost::system::error_code &error);

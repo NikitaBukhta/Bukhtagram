@@ -79,21 +79,18 @@ void ClientController::start_read(void) {
     DECLARE_TAG_SCOPE;
     LOG_INFO << "called";
 
+    /* As we use async programming, the data should be destroyed at the end of the method.
+       To escape the desctruction the buffer, we made this static + made optimization of method work :);
+     */
     static std::array<char, STANDART_BUFFER_SIZE> buf;
     boost::system::error_code error;
     auto socket = m_client_model->socket().lock();
 
-    // buf.resize(128);
     boost::function<void(std::array<char, STANDART_BUFFER_SIZE>&, const uint64_t, const boost::system::error_code)> read_handler
         = boost::bind(&ClientController::handle_read, this, _1, _2, _3);
 
-    socket->async_read_some(boost::asio::buffer(buf), [this, &read_handler](const boost::system::error_code &error, const uint64_t bytes_transferred){
-        BOOST_LOG_TRIVIAL(info) << "bytes: " << bytes_transferred;
-        if (!this->handle_error(error)) {
-            std::cout.write(buf.data(), bytes_transferred) << std::endl;
-        }
-        this->handle_read(buf, bytes_transferred, error);
-        // read_handler(buf, bytes_transferred, error);
+    socket->async_read_some(boost::asio::buffer(buf), [this, read_handler](const boost::system::error_code &error, const uint64_t bytes_transferred){
+        read_handler(buf, bytes_transferred, error);
     });
 }
 
@@ -112,8 +109,7 @@ bool ClientController::handle_error(const boost::system::error_code &error) {
 void ClientController::handle_read(std::array<char, STANDART_BUFFER_SIZE> &data, const uint64_t DATA_SIZE, const boost::system::error_code &error) {
     DECLARE_TAG_SCOPE;
     std::string transformed_data(std::begin(data), std::end(data));
-    LOG_INFO << "bytes count: " << DATA_SIZE << "; bytes transfered: " << transformed_data.size() 
-        << "; data: " << transformed_data;
+    LOG_INFO << "bytes count: " << DATA_SIZE << "; data: " << transformed_data;
     start_read();
 }
 
