@@ -46,6 +46,7 @@ public:
 
     void run(void) override;
     bool connect_to(const std::string &address, uint16_t port) override;
+    void send_message(const std::string &message) override;
 
     // IClientController overriding ends;
 

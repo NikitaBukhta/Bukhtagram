@@ -39,9 +39,13 @@ public:
     virtual ~ClientView(void) = default;
 
     bool run(const std::string &address, uint16_t port);
+    void start_reading_signals(void);
 
 protected:
     // TODO: constructor for UT, where args should be model and controller;
+
+private:
+    void send_message(const std::string &message);
 
 private:
     std::shared_ptr<models::IClientModel> m_client_model;

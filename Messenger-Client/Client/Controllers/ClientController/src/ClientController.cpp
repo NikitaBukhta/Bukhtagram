@@ -73,6 +73,14 @@ bool ClientController::connect_to(const std::string &address, uint16_t port) {
     return false;
 }
 
+void ClientController::send_message(const std::string &message) {
+    DECLARE_TAG_SCOPE;
+    LOG_INFO << "called";
+
+    auto socket = m_client_model->socket().lock();
+    // socket->async_write_some()
+}
+
 void ClientController::start_read(void) {
     using namespace boost::placeholders;
 
