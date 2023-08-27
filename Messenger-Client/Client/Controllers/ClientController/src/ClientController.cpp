@@ -89,7 +89,7 @@ void ClientController::start_read(void) {
     boost::function<void(std::array<char, STANDART_BUFFER_SIZE>&, const uint64_t, const boost::system::error_code)> read_handler
         = boost::bind(&ClientController::handle_read, this, _1, _2, _3);
 
-    socket->async_read_some(boost::asio::buffer(buf), [this, read_handler](const boost::system::error_code &error, const uint64_t bytes_transferred){
+    socket->async_read_some(boost::asio::buffer(buf), [read_handler](const boost::system::error_code &error, const uint64_t bytes_transferred){
         read_handler(buf, bytes_transferred, error);
     });
 }
