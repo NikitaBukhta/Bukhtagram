@@ -20,6 +20,14 @@
 
 #include "Logger.hpp"
 
+#include <boost/function.hpp>
+#include <boost/asio/buffer.hpp>
+#include <boost/bind/bind.hpp>
+
+#include <array>
+#include <vector>
+#include <iostream>
+
 namespace bukhtagram {
 namespace mc {
 namespace client {
@@ -40,7 +48,14 @@ ClientController::~ClientController(void) {
     socket->close();
 }
 
-void ClientController::connect_to(const std::string &address, uint16_t port) {
+void ClientController::run(void) {
+    DECLARE_TAG_SCOPE;
+    LOG_INFO << "called";
+
+    start_read();
+}
+
+bool ClientController::connect_to(const std::string &address, uint16_t port) {
     DECLARE_TAG_SCOPE;
     LOG_INFO << "called";
     boost::system::error_code error_code;
@@ -51,7 +66,35 @@ void ClientController::connect_to(const std::string &address, uint16_t port) {
     socket->connect(server_endpoint, error_code);
     if (!handle_error(error_code)) {
         LOG_INFO << "connected!";
+        return true;
     }
+
+    LOG_ERROR << "Cannot to connect to the server";
+    return false;
+}
+
+void ClientController::start_read(void) {
+    using namespace boost::placeholders;
+
+    DECLARE_TAG_SCOPE;
+    LOG_INFO << "called";
+
+    static std::array<char, STANDART_BUFFER_SIZE> buf;
+    boost::system::error_code error;
+    auto socket = m_client_model->socket().lock();
+
+    // buf.resize(128);
+    boost::function<void(std::array<char, STANDART_BUFFER_SIZE>&, const uint64_t, const boost::system::error_code)> read_handler
+        = boost::bind(&ClientController::handle_read, this, _1, _2, _3);
+
+    socket->async_read_some(boost::asio::buffer(buf), [this, &read_handler](const boost::system::error_code &error, const uint64_t bytes_transferred){
+        BOOST_LOG_TRIVIAL(info) << "bytes: " << bytes_transferred;
+        if (!this->handle_error(error)) {
+            std::cout.write(buf.data(), bytes_transferred) << std::endl;
+        }
+        this->handle_read(buf, bytes_transferred, error);
+        // read_handler(buf, bytes_transferred, error);
+    });
 }
 
 bool ClientController::handle_error(const boost::system::error_code &error) {
@@ -64,6 +107,14 @@ bool ClientController::handle_error(const boost::system::error_code &error) {
 
     LOG_ERROR << error.what();
     return true;
+}
+
+void ClientController::handle_read(std::array<char, STANDART_BUFFER_SIZE> &data, const uint64_t DATA_SIZE, const boost::system::error_code &error) {
+    DECLARE_TAG_SCOPE;
+    std::string transformed_data(std::begin(data), std::end(data));
+    LOG_INFO << "bytes count: " << DATA_SIZE << "; bytes transfered: " << transformed_data.size() 
+        << "; data: " << transformed_data;
+    start_read();
 }
 
 }   // !controllers;

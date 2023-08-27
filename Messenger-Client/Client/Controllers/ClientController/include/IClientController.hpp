@@ -28,7 +28,8 @@ namespace controllers {
 
 class IClientController {
 public:
-    virtual void connect_to(const std::string &address, uint16_t port) = 0;
+    virtual void run(void) = 0;
+    virtual bool connect_to(const std::string &address, uint16_t port) = 0;
 };
 
 }   // !controllers;

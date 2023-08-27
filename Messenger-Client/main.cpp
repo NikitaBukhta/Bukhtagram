@@ -35,6 +35,8 @@ int main(int argc, char **argv) {
         client_model
     );
     client_controller->connect_to("127.0.0.1", 12345);
+    client_controller->run();
+    io_context->run();
     
     return 0;
 }

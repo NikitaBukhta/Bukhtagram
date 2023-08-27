@@ -28,6 +28,9 @@
 #include <string>
 
 #include <inttypes.h>
+#include <vector>
+
+#define STANDART_BUFFER_SIZE 128
 
 namespace bukhtagram {
 namespace mc {
@@ -41,12 +44,16 @@ public:
 
     // IClientController overriding starts;
 
-    void connect_to(const std::string &address, uint16_t port) override;
+    void run(void) override;
+    bool connect_to(const std::string &address, uint16_t port) override;
 
     // IClientController overriding ends;
 
-private:
+public:
+    void start_read(void);
+
     bool handle_error(const boost::system::error_code &error);
+    void handle_read(std::array<char, STANDART_BUFFER_SIZE> &data, const uint64_t DATA_SIZE, const boost::system::error_code &error);
 
 private:
     std::shared_ptr<models::IClientModel> m_client_model;

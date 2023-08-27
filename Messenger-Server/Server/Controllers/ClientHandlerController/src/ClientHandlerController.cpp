@@ -47,6 +47,12 @@ void ClientHandlerController::add(std::weak_ptr<boost::asio::ip::tcp::socket> cl
 
     if (m_client_handler_model->add(client_connection)) {
         LOG_INFO << "new client added to clients list";
+        
+        std::string message = "Hello world!";
+        auto bytes_transferred = client_connection.socket->write_some(boost::asio::buffer(message.data(), message.size()));
+
+        LOG_DEBUG << "send hello world message. Bytes should be transfered: " << message.size() 
+            << "; in fact:" << bytes_transferred;
     } else {
         LOG_WARNING << "Cannot to add client to clients list";
     }
