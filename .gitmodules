@@ -1,0 +1,9 @@
+[submodule "Logger"]
+	path = Logger
+	url = git@github.com:NikitaBukhta/Logger.git
+[submodule "Messenger-Client"]
+	path = Messenger-Client
+	url = git@github.com:NikitaBukhta/Bukhtagram-Client-Backend.git
+[submodule "Messenger-Server"]
+	path = Messenger-Server
+	url = git@github.com:NikitaBukhta/Bukhtagram-Server.git
