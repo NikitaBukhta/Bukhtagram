@@ -7,3 +7,6 @@
 [submodule "Messenger-Server"]
 	path = Messenger-Server
 	url = git@github.com:NikitaBukhta/Bukhtagram-Server.git
+[submodule "Messenger-Common"]
+	path = Messenger-Common
+	url = git@github.com:NikitaBukhta/Bukhtagram-Config.git
